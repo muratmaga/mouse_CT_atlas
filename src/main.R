@@ -1,6 +1,7 @@
 MM=proc.time()
 #prior to invoking R, make sure TEMP environmental variable points to a folder with a large amount of space available.
 #Parts of the workflow use parallel processing (doParallel library) to speed up the execution 
+# image registrations require large amount of RAM (64+ GB) to be available.
 
 require(ANTsR)
 require(doParallel)
