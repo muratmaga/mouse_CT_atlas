@@ -57,7 +57,7 @@ for (i in targets) inVariant(i,f,n.ang)
 #for the failed ones increase the n.ang to 9. Note the number of iterations are to the cube of n.angle (i.e. 9^3=729 registrations per sample)   
 
 ############
-#PART III.    Segmenting individual structures.
+#PART III.    Segmenting individual CF structures.
 ############
 #template label maps are 1: SKull, 2: Right Mandible, 21: Left Mandible, 15: Endocranial space
 segments=c(1,2,21,15)
