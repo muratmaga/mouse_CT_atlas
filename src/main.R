@@ -5,7 +5,7 @@ MM=proc.time()
 require(ANTsR)
 require(doParallel)
 
-root="/scratch/isa/" #point it to the base of the checked out directory
+root="/scratch/mouse_CT_atlas/" #point it to the base of the checked out directory
 ANTSPATH='/home/apps/ants/bin'  #specify where the ANTs image registration library executables are located. This will be used during the shape analysis. 
 
 template=paste(root,"/data/templates/low_res_template_UCHAR.nii.gz",sep="") #use this template to work with the provided data.
