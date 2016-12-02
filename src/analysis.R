@@ -68,7 +68,7 @@ ylist = list( )
 for ( i in 1:length( defs ) ) {
   # build this from composite maps
   myscale = getAntsrTransformParameters( readAntsrTransform( sims[ i ] ) )[7]
-  print( paste( i, myscale, counts[i] ) )
+  print( paste( i, myscale, skull_sizes[i] ) )
   mymat = readAntsrTransform( mats[i] )
   fixedparms = getAntsrTransformFixedParameters( mymat )
   mymatparms = getAntsrTransformParameters( mymat )
@@ -84,7 +84,7 @@ for ( i in 1:length( defs ) ) {
   jmean[ i ] = mean( jlist[[ i ]][ msk == 1 ] )
   ylist[[ i ]] = antsImageRead( compfield )
 }
-print(  cor.test( jmean , counts ) )  # should be high
+print(  cor.test( jmean , skull_sizes ) )  # should be high
 
 wlist = list( )
 for ( i in 1:length( defs ) ) wlist[[ i ]] = antsImageRead( defs[i] )
@@ -105,7 +105,7 @@ if ( !exists("diGPA_total_PCA") )
   ####
 diGPA_total_PCA= multichannelPCA( ylist, msk, k=myk, pcaOption=pca_type, verbose=FALSE )
 
-summary( lm( log(counts) ~ diGPA_total_PCA$pca$u[,1:myk] ) )
+summary( lm( log(skull_sizes) ~ diGPA_total_PCA$pca$u[,1:myk] ) )
 
 plot(diGPA_total_PCA$pca$u[,1:2],pch=20,cex=2,main="Total Warps PCA")
 text(diGPA_total_PCA$pca$u[,1:2],labels=samples,cex=.6,pos=2)
@@ -171,11 +171,11 @@ plot(round((GPA.pca$sdev^2)/sum(GPA.pca$sdev^2),3),pch=20,cex=2,cex.axis=2,main=
 plot(round((GPA.resi.pca$sdev^2)/sum(GPA.resi.pca$sdev^2),3),pch=20,cex=2,cex.axis=2,main="Allometry free GPA PCA",
      ylab="Variance Explained",xlab="Principal Components")
 
-plot(log(counts)~log(GPA$Csize),pch=20,cex=2,cex.axis=1.5,ylab="Skull Voxel Count",xlab="LM Centroid Size")
+plot(log(skull_sizes)~log(GPA$Csize),pch=20,cex=2,cex.axis=1.5,ylab="Skull Voxel Count",xlab="LM Centroid Size")
 
 #how does skull size impact the PC1 scores
-regress_diGPA_total=lm(diGPA_total_PCA$pca$u[,1]~log(counts))
-regress_diGPA_SyN=lm(diGPA_SyN_PCA$pca$u[,1]~log(counts))
+regress_diGPA_total=lm(diGPA_total_PCA$pca$u[,1]~log(skull_sizes))
+regress_diGPA_SyN=lm(diGPA_SyN_PCA$pca$u[,1]~log(skull_sizes))
 regress_GPA_pca=lm(GPA.pca$pc.scores[,1]~log(GPA$Csize))
 regress_GPA_resi.pca=lm(GPA.resi.pca$pc.scores[,1]~log(GPA$Csize))
 
