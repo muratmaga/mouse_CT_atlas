@@ -3,7 +3,7 @@ library( ANTsR )
 library( geomorph )
 # set the base directory manually. This should be the output of data folder from the ISA checkout
 # calculations require large amount of RAM (64+ GB) to be available.
-bd=path.expand( "/scratch/isa/data/")
+bd=path.expand( "/scratch/mouse_CT_atlas/data/")
 reference=paste( bd, "/templates/low_res_skull_only.nii.gz",sep="")
 
 if ( ! dir.exists( bd ) )
