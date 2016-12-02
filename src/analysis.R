@@ -40,7 +40,7 @@ pseudoLM = array( unlist( lmlist ), dim = mydims )
 #####
 
 #load LM data
-load(paste(bd,"mouse/LMs.RData",sep="/")) #LMs manually annotated  from the individual skull.
+load(paste(bd,"/LMs.RData",sep="/")) #LMs manually annotated  from the individual skull.
 GPA=gpagen(LM)
 GPA.pca=plotTangentSpace(GPA$coords)
 exclude.lm=which(! as.character(1:51) %in% rownames(LM[,,1]))   #Total of six LMs were missing from various mice. Exlcuding those from the pseudoLMs.
