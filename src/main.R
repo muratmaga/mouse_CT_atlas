@@ -78,7 +78,7 @@ for (i in targets) segmentation(i)
 #####END OF IMAGE PROCESSING
 
 
-#PART IV. Image Based Shape Analysis
+#PART IV. Registrations for Image Based Shape Analysis (diGPA)
 
 #PART IVA. Remove the nuisance parameters through rigid + uniform scaling
 #need to switch to skull only template to calculate the deformations 
