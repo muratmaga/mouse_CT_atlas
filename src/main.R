@@ -56,7 +56,10 @@ for (i in targets) inVariant(i,f,n.ang)
 #output NIFTIs are in the registered  folder.
 #you can check the slice views to evaluate the outcome of the rigid registrations in cross-sections folder
 #for the failed ones increase the n.ang to 9. Note the number of iterations are to the cube of n.angle (i.e. 9^3=729 registrations per sample)   
-
+#e.g. sample C57L_J needs more iterations
+inVariant(targets[grep("C57L_J",samples)],f,9)
+   
+  
 ############
 #PART III.    Segmenting individual CF structures.
 ############
