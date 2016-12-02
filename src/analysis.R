@@ -1,13 +1,13 @@
 MM=proc.time()
 library( ANTsR )
 library( geomorph )
-# set the base directory manually. This should be the output of data folder from the ISA checkout
+# set the base directory manually. This should point out to the data folder of the cloned repository.
 # calculations require large amount of RAM (64+ GB) to be available.
 bd=path.expand( "/scratch/mouse_CT_atlas/data/")
 reference=paste( bd, "/templates/low_res_skull_only.nii.gz",sep="")
 
 if ( ! dir.exists( bd ) )
-  stop("set base directory to point to the base of the ISA data folder")
+  stop("set base directory to point to the data folder of the cloned repository.")
 sims = Sys.glob( paste(bd,'/targets/masked/registered/Skull/step1/*Similarity*.mat',sep='') )
 mats = Sys.glob( paste(bd,'/targets/masked/registered/Skull/step1/step2/*Warped1Affine.mat',sep='') )
 defs = Sys.glob( paste(bd,'/targets/masked/registered/Skull/step1/step2/*[0-9]Warp.nii.gz',sep='') )
@@ -21,7 +21,7 @@ samples=sub("_Warped2Warp.nii.gz","",samples)
 samples=sub(paste(bd,'/targets/masked/registered/Skull/step1/step2/',sep=''),"",samples)
 samples=sub("Skull_","",samples)
 
-# get points collected from the skull template and map them
+# read the landmark collected from the skull template and map them back to samples.
 templatePointsFile = paste(bd,'/templates/low_res_skull_only_LM_LPS.csv',sep='')
 templatePoints = read.csv( templatePointsFile )
 nlandmarks = nrow( templatePoints )
@@ -34,13 +34,13 @@ for ( i in 1:length( sims ) ) {
 }
 mydims = c( nrow( lmlist[[1]] ), ncol( lmlist[[1]]), length(lmlist) )
 pseudoLM = array( unlist( lmlist ), dim = mydims )
-#radius = mean( antsGetSpacing(msk) ) * 5     #these steps are to validate positioning of pseudoLMs on the skull template
+#radius = mean( antsGetSpacing(msk) ) * 5     #these steps are there to confirm positioning of pseudoLMs on the skull template
 #mmm = makePointsImage( templatePoints, msk, radius )
 #print( range(mmm )  )  # should have max value equal to nlandmarks
 #####
 
 #load LM data
-load(paste(bd,"mouse/LMs.RData",sep="/")) #LMs manually annotated  from the individual mice.
+load(paste(bd,"mouse/LMs.RData",sep="/")) #LMs manually annotated  from the individual skull.
 GPA=gpagen(LM)
 GPA.pca=plotTangentSpace(GPA$coords)
 exclude.lm=which(! as.character(1:51) %in% rownames(LM[,,1]))   #Total of six LMs were missing from various mice. Exlcuding those from the pseudoLMs.
@@ -48,9 +48,7 @@ diGPA=gpagen(pseudoLM[-exclude.lm,,])
 diGPA.pca=plotTangentSpace(diGPA$coords)
 plot(GPA$Csize,diGPA$Csize,main="Centroid Size")
 plot(GPA.pca$pc.scores[,1],diGPA.pca$pc.scores[,1])
-for (i in 1:10) print(cor.test(GPA.pca$pc.scores[,i],diGPA.pca$pc.scores[,i])$estimate)
-
-
+for (i in 1:10) print(cor.test(GPA.pca$pc.scores[,i],diGPA.pca$pc.scores[,i])$estimate) #correlations between PC scores.
 
 #MEASURES OF SIZE
 Skulls=dir(path=paste(bd,'/targets/masked/registered/Skull/',sep=''),patt="gz",full.names = T)
@@ -116,7 +114,7 @@ print(proc.time()-MM)
 
 
 #Now visualize the first two PC (positive component) and save the as volumes
-#these require rgl, misc3d and pixmap libraries installed in R
+#these steps require rgl, misc3d and pixmap libraries installed in R
 
 mxk=1 #number of PCs to visualize
 for ( ww in 1:mxk )
