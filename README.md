@@ -1,4 +1,4 @@
-# Mus musculus craniofacial atlas and image based shape analysis repository
+# _Mus musculus_ craniofacial atlas and image based shape analysis repository
 Clone this repository somewhere with sufficiently large space. 
 When executed, sample workflow produces 17GB of output. 
 You need to have ANTs and ANTsR installed in your system:
