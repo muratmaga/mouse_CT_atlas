@@ -7,6 +7,7 @@ library( Morpho )
 # calculations require large amount of RAM (64+ GB) to be available.
 bd=path.expand( "/scratch/mouse_CT_atlas/data/")
 reference=paste( bd, "/templates/low_res_skull_only.nii.gz",sep="")
+set.seed(1234)
 
 if ( ! dir.exists( bd ) )
   stop("set base directory to point to the data folder of the cloned repository.")
@@ -158,13 +159,15 @@ for ( ww in 1:mxk )
 #plots and tables in the paper
 #Figure 3.
 plot(joint.GPA$consensus[,1:2],pch=32,col="black",cex=2)
-for (i in 1:51) points(joint.GPA$coords[,1:2,i],pch=20,col="red")
-for (i in 52:102) points(joint.GPA$coords[,1:2,i],pch=20,col="cyan")
-#points(joint.GPA$consensus[,1:2],pch=3,col="black",cex=2,lwd=4)
-pseudo_Mean=apply(joint.GPA$coords[,,52:102],c(1,2),mean)
-GPA_Mean=apply(joint.GPA$coords[,,1:51],c(1,2),mean)
-points(GPA_Mean[,1:2],col="black",pch=3,cex=2,lwd=2)
-points(pseudo_Mean[,1:2],col="black",pch=3,cex=2,lwd=2)
+LM_labels=rownames(joint.GPA$consensus[, 1:2])
+for (i in 1:51) points(joint.GPA$coords[, 1:2, i], pch=20, col="red")
+for (i in 52:102) points(joint.GPA$coords[, 1:2, i], pch=20, col="cyan")
+#points(joint.GPA$consensus[, 1:2], pch=3, col="black", cex=2, lwd=4)
+pseudo_Mean=apply(joint.GPA$coords[, , 52:102], c(1, 2), mean)
+GPA_Mean=apply(joint.GPA$coords[, , 1:51], c(1, 2), mean)
+points(GPA_Mean[, 1:2], col="black", pch=3, cex=2, lwd=2)
+text((GPA_Mean[, 1:2]+c(0, 0.001)), labels = LM_labels, pos=3, cex=1.5)
+points(pseudo_Mean[, 1:2], col="black", pch=3, cex=2, lwd=2)
 
 groups=as.factor(c(rep("GPA",51),rep("Pseudo",51)))
 proc.anova=procD.lm(joint.GPA$coords~groups,iter = 1000,RRPP = T)
@@ -205,3 +208,29 @@ for (i in 1:1) {
   print(cor.test(diGPA_SyN_PCA$pca$u[,i],diGPA_total_PCA$pca$u[,i]))
   
 }
+  
+
+#further analysis regarding the PD of landmarks
+
+proc.Dist=function(aligned){
+  return(sqrt(sum((aligned - joint.GPA$consensus)^2)))
+}
+
+#to assess the magnitude in the shape variation we will first look at the procrustes distance
+#as a quick way measure of measuring total variation in a landmark configuration
+PD=NULL
+for (i in 1:dim(joint)[3]) PD[i]= proc.Dist(joint.GPA$coords[,,i])
+tapply(PD, groups, sd)/tapply(PD, groups, mean)*100
+t.test(PD[groups=="GPA"], PD[groups=="Pseudo"], paired=T)
+wilcox.test(PD[groups=="GPA"], PD[groups=="Pseudo"], paired=T, alternative="greater") 
+
+#we can also look at each individual landmark
+#but we have to keep in mind that these are based on already aligned coordinates
+
+LM_dist=array(dim=c(45,102))
+for (i in 1:102) for (j in 1:45) LM_dist[j, i] = sqrt(sum((joint.GPA$coords[j,,i] - joint.GPA$consensus[j,])^2))
+
+for (i in 1:45) print(wilcox.test(LM_dist[i, groups=="GPA"], LM_dist[i, groups=="Pseudo"], paired=T, alternative="greater") )
+
+
+  
