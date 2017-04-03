@@ -5,6 +5,7 @@ MM=proc.time()
 
 require(ANTsR)
 require(doParallel)
+set.seed(1234)
 
 root="/scratch/mouse_CT_atlas/" #point it to the base of the checked out directory
 ANTSPATH='/home/apps/ants/bin'  #specify where the ANTs image registration library executables are located. This will be used during the shape analysis. 
