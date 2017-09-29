@@ -14,7 +14,7 @@ Image segmentation pipeline (Part I-III) takes approximately 20-30 minutes depen
 
 Reported results and graphs in Maga et al. can be reproduced by running the src/analysis.R script interactively. 
 
-
+UPDATE: It is now possible to run ANTs/ANTsR in Windows, provided you are using Windows 10 and enabled the linux subsystem. Instructions are available at https://github.com/ANTsX/ANTsR/wiki/Installing-ANTsR-in-Windows-10-(along-with-FSL,-Rstudio,-Freesurfer,-etc).
 
 
 
