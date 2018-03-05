@@ -19,6 +19,6 @@ inVariant=function(moving,f,n.ang=5) {
   m2f = antsApplyTransforms( f, m, transformlist=mytx )
   www = antsApplyTransforms( ffull, mfull, transformlist=mytx )
   antsImageWrite(antsImageClone(www,out_pixeltype = "unsigned char"),paste("registered",moving,sep="/"))
-  plot.antsImage(ffull,www,alpha=.5,axis=3,nslices=20,ncolumn=10,out=paste("cross_sections/cross_",moving,".jpg",sep=""))
+  plot(ffull,www,alpha=.5,axis=3,nslices=20,ncolumn=10,out=paste("cross_sections/cross_",moving,".jpg",sep=""))
 
 }
