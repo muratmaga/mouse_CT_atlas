@@ -8,7 +8,7 @@ require(doParallel)
 set.seed(1234)
 
 root="/scratch/mouse_CT_atlas/" #point it to the base of the checked out directory
-ANTSPATH='/home/apps/ants/bin'  #specify where the ANTs image registration library executables are located. This will be used during the shape analysis. 
+ANTSPATH='/home/apps/ants/'  #specify where the ANTs image registration library executables are located. This will be used during the shape analysis. 
 
 template=paste(root,"/data/templates/low_res_template_UCHAR.nii.gz",sep="") #use this template to work with the provided data.
 segs=paste(root,"/data/templates/low_res_template_UCHAR-label.nii.gz",sep="")
