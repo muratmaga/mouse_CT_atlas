@@ -12,7 +12,7 @@ nohup Rscript src/main.R > processing.log&
 
 Image segmentation pipeline (Part I-III) takes approximately 20-30 minutes depending on the availability of computing power. Registrations (Part IV) will take 5-10h, again depending on the available computational power. 
 
-Reported results and graphs in Maga et al. can be reproduced by running the src/analysis.R script interactively. 
+Reported results and graphs in Maga et al. 2017 (https://www.ncbi.nlm.nih.gov/pubmed/28656622) can be reproduced by running the src/analysis.R script interactively. 
 
 UPDATE: It is now possible to run ANTs/ANTsR in Windows, provided you are using Windows 10 and enabled the linux subsystem. Instructions are available at https://github.com/ANTsX/ANTsR/wiki/Installing-ANTsR-in-Windows-10-(along-with-FSL,-Rstudio,-Freesurfer,-etc).
 
